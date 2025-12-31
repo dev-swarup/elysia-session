@@ -73,7 +73,7 @@
     ],
     "scripts": {
         "build": "tsc --project tsconfig.esm.json && tsc --project tsconfig.cjs.json",
-        "release": "npm run build && npm publish",
+        "release": "npm run build && npm publish --access public",
         "lint": "eslint . --ext .ts"
     },
     "license": "MIT",
