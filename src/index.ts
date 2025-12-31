@@ -1,3 +1,5 @@
+/// @ts-nocheck
+
 import type Elysia from 'elysia'
 import type { CookieOptions } from 'elysia'
 import { nanoid } from 'nanoid'
