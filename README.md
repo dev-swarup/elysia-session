@@ -1,17 +1,17 @@
 # Elysia Session
 
-![badge](https://github.com/gaurishhs/elysia-session/actions/workflows/npm-publish.yml/badge.svg)
+![badge](https://github.com/dev-swarup/elysia-session/actions/workflows/npm-publish.yml/badge.svg)
 
 ## Features
 
-- Runs in Bun, Cloudflare Workers, and those supported by Elysia.
+- Runs in Bun, and those supported by Elysia.
 - Flash messages — data that is deleted once it's read (one-off error messages, etc.)
-- Built-in Memory, Bun SQLite and Cookie stores. 
+- Built-in Memory, Cookie, Bun SQLite and Redis stores. 
 
 ## Installation 
 
 ```bash
-bun a elysia-session
+bun install @dev-swarup/elysia-session
 ```
 
 ## Documentation
@@ -20,7 +20,8 @@ There are 3 stores in-built in this package:
 
 1. Memory Store
 2. Cookie Store
-3. Bun SQLite Store
+3. Redis Store
+4. Bun SQLite Store
 
 You can implement your own store by implementing the `Store` interface as shown below:
 
@@ -80,6 +81,23 @@ new Elysia()
         httpOnly: true
       }, // Optional, defaults to {}
       cookieName: "session" // Optional, defaults to "session"
+    }),
+    expireAfter: 15 * 60, // 15 minutes
+  })).get("/", () => 'Hi').listen(3000);
+```
+
+#### Redis Store
+
+```ts
+import { sessionPlugin } from "elysia-session";
+import { Redis } from "elysia-session/stores/redis"
+import Elysia from "elysia";
+
+new Elysia()
+  .use(sessionPlugin({
+    cookieName: "session", // Optional, defaults to "session"
+    store: new RedisStore("redis://localhost:6379", {
+      prefix: "session"
     }),
     expireAfter: 15 * 60, // 15 minutes
   })).get("/", () => 'Hi').listen(3000);
@@ -228,4 +246,5 @@ MIT
 ## Author
 
 Copyright (c) 2023 Gaurish Sethia, All rights reserved.
-Updates 2024 Jay Kelkar
+Copyright (c) 2025 Swarup Banerjee, All rights reserved.
+Updates 2025 Swarup Banerjee
