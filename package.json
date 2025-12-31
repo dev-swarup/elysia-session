@@ -1,5 +1,5 @@
 {
-    "name": "@dv-swarup/elysia-session",
+    "name": "@dev-swarup/elysia-session",
     "type": "module",
     "version": "1.0.0",
     "author": {
@@ -87,6 +87,7 @@
     },
     "dependencies": {
         "nanoid": "^5.1.6",
+        "ioredis": "^5.8.2",
         "iron-webcrypto": "^2.0.0"
     }
 }

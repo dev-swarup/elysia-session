@@ -78,7 +78,7 @@ export const sessionPlugin = (options: SessionOptions) => (app: Elysia) => {
         session,
       }
     })
-    .onAfterResponse(async (ctx) => {
+    .onAfterHandle(async (ctx) => {
       const store = options.store
       const session = ctx.session
       const cookieName = options.cookieName || 'session'

@@ -97,7 +97,7 @@ new Elysia()
   .use(sessionPlugin({
     cookieName: "session", // Optional, defaults to "session"
     store: new RedisStore("redis://localhost:6379", {
-      prefix: "session"
+      keyPrefix: "session"
     }),
     expireAfter: 15 * 60, // 15 minutes
   })).get("/", () => 'Hi').listen(3000);
