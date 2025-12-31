@@ -245,6 +245,6 @@ MIT
 
 ## Author
 
-Copyright (c) 2023 Gaurish Sethia, All rights reserved.
-Copyright (c) 2025 Swarup Banerjee, All rights reserved.
+Copyright (c) 2023 Gaurish Sethia, All rights reserved. <br>
+Copyright (c) 2025 Swarup Banerjee, All rights reserved. <br>
 Updates 2025 Swarup Banerjee
