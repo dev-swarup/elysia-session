@@ -1,7 +1,7 @@
 {
     "name": "@dev-swarup/elysia-session",
     "type": "module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": {
         "name": "Swarup Banerjee",
         "url": "https://github.com/dev-swarup",
