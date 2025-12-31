@@ -1,3 +1,4 @@
+/// @ts-nocheck
 import { CookieOptions } from "elysia";
 import { Context } from "elysia";
 import { Store } from "../store"

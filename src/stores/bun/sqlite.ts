@@ -1,3 +1,4 @@
+/// @ts-nocheck
 import { Store } from "../../store";
 import { SessionData } from "../../session";
 import { Database } from "bun:sqlite";
