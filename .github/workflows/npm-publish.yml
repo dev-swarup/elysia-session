@@ -5,9 +5,7 @@ name: Node.js Package
 
 on:
   push:
-  release:
-    types: [created]
-
+  
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
