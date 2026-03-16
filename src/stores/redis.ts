@@ -13,7 +13,7 @@ export class RedisStore implements Store {
             throw new Error("Protocol not supported");
 
         this.redis = new Redis(Object.assign({
-            host: u.host,
+            host: u.hostname,
             port: Number(u.port) || 6379
         }, typeof options == "object" ? options : {}));
     };
@@ -38,11 +38,11 @@ export class RedisStore implements Store {
 
     createSession = async (data: SessionData, id: string): Promise<void> => {
         if (this.redis)
-            this.redis.set(id, JSON.stringify(data));
+            await this.redis.set(id, JSON.stringify(data));
     };
 
     persistSession = async (data: SessionData, id: string): Promise<void> => {
         if (this.redis)
-            this.redis.set(id, JSON.stringify(data));
+            await this.redis.set(id, JSON.stringify(data));
     };
 };
