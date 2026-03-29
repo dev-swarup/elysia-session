@@ -10,6 +10,7 @@ export interface Options extends RedisOptions {
 
 export class RedisStore implements Store {
     private redis: Redis;
+    private keyPrefix?: string;
     private expireAfter?: number;
 
     constructor(options?: Options);
@@ -20,6 +21,7 @@ export class RedisStore implements Store {
 
             if (urlOrOptions.client instanceof Redis) {
                 this.redis = urlOrOptions.client;
+                this.keyPrefix = urlOrOptions.keyPrefix || "";
                 return;
             };
         };
@@ -30,6 +32,7 @@ export class RedisStore implements Store {
 
         if (opts.client instanceof Redis) {
             this.redis = opts.client;
+            this.keyPrefix = opts.keyPrefix || "";
             return;
         };
 
@@ -43,6 +46,7 @@ export class RedisStore implements Store {
                 host: u.hostname,
                 port: Number(u.port) || 6379
             }, opts));
+            this.keyPrefix = "";
 
             return;
         };
@@ -51,7 +55,7 @@ export class RedisStore implements Store {
     };
 
     getSession = async (id: string): Promise<SessionData | null> => {
-        const val = await this.redis.get(id);
+        const val = await this.redis.get(this.keyPrefix + id);
 
         if (!val)
             return null;
@@ -64,16 +68,16 @@ export class RedisStore implements Store {
     };
 
     deleteSession = async (id: string): Promise<void> => {
-        await this.redis.del(id);
+        await this.redis.del(this.keyPrefix + id);
     };
 
     private writeSession = async (id: string, data: SessionData): Promise<void> => {
         const payload = JSON.stringify(data);
 
         if (this.expireAfter)
-            await this.redis.set(id, payload, "EX", this.expireAfter);
+            await this.redis.set(this.keyPrefix + id, payload, "EX", this.expireAfter);
         else
-            await this.redis.set(id, payload);
+            await this.redis.set(this.keyPrefix + id, payload);
     };
 
     createSession = async (data: SessionData, id: string): Promise<void> => {
