@@ -14,6 +14,7 @@ export interface SessionOptions {
   cookieOptions?: CookieOptions
 }
 
+export { Session };
 export const sessionPlugin = (options: SessionOptions) => (app: Elysia) => {
   return app
     .derive(async (ctx) => {
