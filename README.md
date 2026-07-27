@@ -157,6 +157,42 @@ new Elysia()
   .listen(3000);
 ```
 
+### CSRF Protection
+
+Optional, disabled by default. Pass a `csrf` object to `sessionPlugin` to enable it — token generation/verification is powered by Bun's built-in [`Bun.CSRF`](https://bun.com) API, so this only works when running under Bun.
+
+Enabling it sets a readable CSRF cookie (double-submit-cookie pattern) on every response and rejects any request whose method isn't in `safeMethods` unless it carries a matching token in the configured header.
+
+```ts
+import Elysia from "elysia";
+import { sessionPlugin } from "@dev-swarup/elysia-session";
+import { MemoryStore } from "@dev-swarup/elysia-session/stores/memory";
+
+new Elysia()
+  .use(sessionPlugin({
+    store: new MemoryStore(),
+    expireAfter: 15 * 60,
+    csrf: {
+      cookieName: "csrf_token",   // optional, defaults to "csrf_token"
+      headerName: "x-csrf-token", // optional, defaults to "x-csrf-token"
+      safeMethods: ["GET", "HEAD", "OPTIONS"], // optional, this is the default
+    },
+  }))
+  .post("/transfer", (ctx) => "Money moved!")
+  .listen(3000);
+```
+
+On the client, read the `csrf_token` cookie and send its value back in the `x-csrf-token` header on state-changing requests (POST/PUT/PATCH/DELETE):
+
+```ts
+fetch("/transfer", {
+  method: "POST",
+  headers: { "x-csrf-token": getCookie("csrf_token") },
+});
+```
+
+Requests to unsafe methods without a valid token receive a `403` response.
+
 ## Community Stores
 
 <details>
