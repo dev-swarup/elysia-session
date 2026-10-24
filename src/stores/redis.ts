@@ -13,6 +13,16 @@ export interface RedisStoreOptions extends RedisOptions {
 }
 
 /**
+ * Duck-type check for an ioredis-compatible client. Avoids `instanceof Redis`, which
+ * fails when the app and this package resolve different copies of ioredis.
+ */
+function isRedisClient(value: unknown): value is Redis {
+  if (typeof value !== "object" || value === null) return false;
+  const client = value as Record<string, unknown>;
+  return typeof client.get === "function" && typeof client.set === "function" && typeof client.del === "function";
+}
+
+/**
  * A session store backed by Redis via ioredis.
  *
  * @example Using a connection URL
@@ -41,8 +51,12 @@ export class RedisStore implements Store {
     // Ensure keyPrefix is always a string, never undefined.
     this.keyPrefix = opts.keyPrefix ?? "";
 
-    // Case 1: caller supplied a ready-made Redis client.
-    if (opts.client instanceof Redis) {
+    // Case 1: caller supplied a ready-made Redis client. Use it as given; never fall
+    // back to a default connection when a client was passed.
+    if (opts.client !== undefined) {
+      if (!isRedisClient(opts.client))
+        throw new Error("RedisStore: `client` must be an ioredis-compatible client");
+
       this.redis = opts.client;
       return;
     }

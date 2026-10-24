@@ -1,7 +1,7 @@
 {
     "name": "@dev-swarup/elysia-session",
     "type": "module",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "author": {
         "name": "Swarup Banerjee",
         "url": "https://github.com/dev-swarup",
@@ -83,11 +83,14 @@
         "typescript": "^5.9.3",
         "@types/bun": "latest",
         "@typescript-eslint/parser": "^8.51.0",
-        "@typescript-eslint/eslint-plugin": "^8.51.0"
+        "@typescript-eslint/eslint-plugin": "^8.51.0",
+        "ioredis": "^5.8.2"
+    },
+    "peerDependencies": {
+        "ioredis": ">=5.8.2"
     },
     "dependencies": {
         "nanoid": "^5.1.6",
-        "ioredis": "^5.8.2",
         "iron-webcrypto": "^2.0.0"
     }
 }
